@@ -38,6 +38,42 @@ const Feed: React.FC = () => {
 
     <IonCard>
       <IonCardHeader>
+        <IonCardTitle>IT36</IonCardTitle>
+        <IonCardSubtitle>Information Assurance and Security</IonCardSubtitle>
+      </IonCardHeader>
+
+      <IonCardContent>Unit: 3</IonCardContent>
+
+      <IonButton fill="clear">Show Details</IonButton>
+      
+    </IonCard>
+
+    <IonCard>
+      <IonCardHeader>
+        <IonCardTitle>IT39</IonCardTitle>
+        <IonCardSubtitle>System Integration and Architecture</IonCardSubtitle>
+      </IonCardHeader>
+
+      <IonCardContent>Unit: 3</IonCardContent>
+
+      <IonButton fill="clear">Show Details</IonButton>
+      
+    </IonCard>
+
+    <IonCard>
+      <IonCardHeader>
+        <IonCardTitle>IT37</IonCardTitle>
+        <IonCardSubtitle>Hardware Implementations and Technology</IonCardSubtitle>
+      </IonCardHeader>
+
+      <IonCardContent>Unit: 3</IonCardContent>
+
+      <IonButton fill="clear">Show Details</IonButton>
+      
+    </IonCard>
+
+    <IonCard>
+      <IonCardHeader>
         <IonCardTitle>IT38</IonCardTitle>
         <IonCardSubtitle>Enterprise Systems</IonCardSubtitle>
       </IonCardHeader>
