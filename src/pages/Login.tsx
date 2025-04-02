@@ -18,6 +18,7 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { useState } from "react";
+import { supabase } from "../utils/supabaseClient";
 
 const Login: React.FC = () => {
   const navigation = useIonRouter();
