@@ -1,5 +1,4 @@
 import {
-  IonAvatar,
   IonButton,
   IonCard,
   IonCardContent,
@@ -9,9 +8,7 @@ import {
   IonHeader,
   IonInput,
   IonInputPasswordToggle,
-  IonItem,
   IonList,
-  IonIcon,
   IonPage,
   IonLabel,
   IonTitle,
@@ -97,14 +94,15 @@ const Login: React.FC = () => {
               </IonInput>
             </div>
             <IonButton onClick={() => doLogin()} expand="block" style={{ marginTop: 20 }}>
-              Login
+            Login
             </IonButton>
-            <div style={{ textAlign: "center", marginTop: "80%" }}>
-              <span>Don't have an account yet? </span>
+
+            <div style={{ textAlign: "center", marginTop: 15 }}>
+            <span>Don't have an account yet? </span>
+            <a href="/it35-lab/signup" style={{ color: "0057FF", textDecoration: "none" }}>
+            Signup
+            </a>
             </div>
-            <IonButton routerLink="/it35-lab/signup" expand="block" style={{ marginTop: 10 }}>
-              Signup
-            </IonButton>
           </IonList>
         </IonCardContent>
       </IonCard>
