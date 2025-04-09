@@ -113,6 +113,14 @@ const Signup: React.FC = () => {
             </IonCardHeader>
             <IonCardContent>
               <IonList>
+              <IonLabel position="stacked">Username</IonLabel>
+              <IonInput
+                fill="outline"
+                type="text"
+                placeholder="Enter a unique username"
+                value={username}
+                onIonChange={(e) => setUsername(e.detail.value!)}
+              />
                 <div style={{ marginTop: 10 }}>
                   <IonLabel position="stacked">Email</IonLabel>
                   <IonInput
@@ -124,7 +132,7 @@ const Signup: React.FC = () => {
                   />
                 </div>
                 <div style={{ marginTop: 10 }}>
-                  <IonLabel position="stacked">Password</IonLabel>
+                  <IonLabel position="stacked"> Password</IonLabel>
                   <IonInput
                     type="password"
                     value={password}
