@@ -109,7 +109,7 @@ const Signup: React.FC = () => {
         <IonContent>
           <IonCard style={{ height: "90%" }}>
             <IonCardHeader>
-              <IonCardTitle>Create an Account</IonCardTitle>
+              <IonCardTitle>Create an account</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
               <IonList>
