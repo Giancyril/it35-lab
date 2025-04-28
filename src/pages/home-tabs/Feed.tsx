@@ -6,8 +6,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-} from '@ionic/react';
-import FeedContainer from '../../components/FeedContainer';
+} from "@ionic/react";
 
 const Feed: React.FC = () => {
   return (
@@ -21,9 +20,19 @@ const Feed: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-      <FeedContainer />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          Feed
+        </div>
       </IonContent>
     </IonPage>
   );
 };
+
 export default Feed;
