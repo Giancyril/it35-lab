@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonInput, IonFooter, IonAvatar, IonText, IonPopover, IonRow, IonCol, IonIcon, IonAlert, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonLabel, createAnimation } from '@ionic/react';
+import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonInput, IonFooter, IonAvatar, IonText, IonPopover, IonRow, IonCol, IonIcon, IonAlert, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonLabel, IonSearchbar, createAnimation } from '@ionic/react';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../utils/supabaseClient';
 import { pencil, trash } from 'ionicons/icons';
@@ -28,6 +28,15 @@ const FeedContainer = () => {
   const [animatedModalContent, setAnimatedModalContent] = useState('');
   const animatedModalEl = useRef<HTMLIonModalElement>(null);
   const editModalEl = useRef<HTMLIonModalElement>(null);
+  const [postToDelete, setPostToDelete] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [searchText, setSearchText] = useState('');
+
+   // Derived list filtered by searchText
+   const filteredPosts = posts.filter(p =>
+    p.username.toLowerCase().includes(searchText.toLowerCase()) ||
+    p.post_content.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -155,23 +164,29 @@ const FeedContainer = () => {
       <IonContent>
         {user ? (
           <>
-            <IonCard>
-              <IonCardHeader>
-                <IonCardTitle>What's on your mind?</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>
-                <IonInput
-                  value={postContent}
-                  onIonChange={e => setPostContent(e.detail.value!)}
-                  placeholder="Write a post..."
-                />
-              </IonCardContent>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0.5rem' }}>
-                <IonButton onClick={createPost}>Post</IonButton>
-              </div>
-            </IonCard>
 
-            {posts.map(post => (
+           {/* ───── Search Bar ───── */}
+           <IonSearchbar
+            value={searchText}
+            onIonInput={e => setSearchText(e.detail.value!)}
+            placeholder="Search posts"
+            debounce={300}
+          />
+            <IonCard>
+            <IonCardHeader><IonCardTitle>What's on your mind?</IonCardTitle></IonCardHeader>
+            <IonCardContent>
+              <IonInput
+                value={postContent}
+                onIonChange={e => setPostContent(e.detail.value!)}
+                placeholder="Write a post..."
+              />
+            </IonCardContent>
+            <IonFooter style={{ display: 'flex', justifyContent: 'flex-end', padding: '0.5rem' }}>
+              <IonButton onClick={createPost}>Post</IonButton>
+            </IonFooter>
+          </IonCard>
+
+          {filteredPosts.map(post => (
               <IonCard key={post.post_id} style={{ marginTop: '2rem' }}>
                 <IonCardHeader>
                   <IonRow>
@@ -202,12 +217,21 @@ const FeedContainer = () => {
                 </IonCardHeader>
 
                 <IonCardContent>
-                  <IonText style={{ color: 'white' }}>
-                    <h1>{post.post_content}</h1>
+                  <IonText style={{ color: 'black' }}>
+                    <h1>
+                      {post.post_content.length > 150
+                        ? post.post_content.substring(0, 150) + '...'
+                        : post.post_content}
+                    </h1>
                   </IonText>
-                  <IonButton fill="clear" size="small" onClick={() => openAnimatedModal(post.post_content)}>
-                    See More
-                  </IonButton>
+
+                  {post.post_content.length > 150 && (
+                    <div style={{ marginTop: '1.0 rem' }}>
+                      <IonButton fill="clear" size="small" onClick={() => openAnimatedModal(post.post_content)}>
+                        See More
+                      </IonButton>
+                    </div>
+                  )}
                 </IonCardContent>
 
                 <IonPopover
@@ -217,16 +241,16 @@ const FeedContainer = () => {
                     setPopoverState({ open: false, event: null, postId: null })
                   }
                 >
-                  <IonButton
-                    fill="clear"
-                    onClick={() => startEditingPost(post)}
-                  >
+                  <IonButton fill="clear" onClick={() => startEditingPost(post)}>
                     Edit
                   </IonButton>
                   <IonButton
                     fill="clear"
                     color="danger"
-                    onClick={() => deletePost(post.post_id)}
+                    onClick={() => {
+                      setPostToDelete(post.post_id);
+                      setShowDeleteConfirm(true);
+                    }}
                   >
                     Delete
                   </IonButton>
@@ -249,7 +273,6 @@ const FeedContainer = () => {
       >
         <IonHeader>
           <IonToolbar>
-           
             <IonButtons slot="end">
               <IonButton onClick={closeAnimatedModal}>Close</IonButton>
             </IonButtons>
@@ -285,11 +308,30 @@ const FeedContainer = () => {
       </IonModal>
 
       <IonAlert
-        isOpen={isAlertOpen}
-        onDidDismiss={() => setIsAlertOpen(false)}
-        header="Success"
-        message="Post updated successfully!"
-        buttons={['OK']}
+        isOpen={showDeleteConfirm}
+        onDidDismiss={() => setShowDeleteConfirm(false)}
+        header="Confirm Delete"
+        message="Are you sure you want to delete this post?"
+        buttons={[
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              setShowDeleteConfirm(false);
+            },
+          },
+          {
+            text: 'Delete',
+            role: 'destructive',
+            handler: async () => {
+              if (postToDelete) {
+                await deletePost(postToDelete);
+                setPostToDelete(null);
+              }
+              setShowDeleteConfirm(false);
+            },
+          },
+        ]}
       />
     </>
   );
