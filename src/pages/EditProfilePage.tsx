@@ -174,7 +174,7 @@ import React, { useState, useRef, useEffect } from 'react';
          </IonHeader>
          <IonContent className="ion-padding">
            <IonItem>
-             <IonText color="secondary">
+             <IonText color="primary">
                <h1>Edit Account</h1>
              </IonText>
            </IonItem>
@@ -247,7 +247,7 @@ import React, { useState, useRef, useEffect } from 'react';
            </IonGrid>         
            <IonGrid>
              <IonRow>
-             <IonText color="secondary">
+             <IonText color="primary ">
              <h3>Change Password</h3>
              </IonText>
                <IonCol size="12">
@@ -288,7 +288,7 @@ import React, { useState, useRef, useEffect } from 'react';
            {/* Current Password Field */}
            <IonGrid>
              <IonRow>
-               <IonText color="secondary">
+               <IonText color="primary">
                <h3>Confirm Changes</h3>
                </IonText>
                <IonCol size="12">

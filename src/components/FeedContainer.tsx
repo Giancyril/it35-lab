@@ -210,7 +210,7 @@ const FeedContainer = () => {
                           })
                         }
                       >
-                        <IonIcon color="secondary" icon={pencil} />
+                        <IonIcon color="primary" icon={pencil} />
                       </IonButton>
                     </IonCol>
                   </IonRow>
